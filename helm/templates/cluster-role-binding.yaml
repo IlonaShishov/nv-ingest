@@ -1,0 +1,22 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "nv-ingest.fullname" . }}-anyuid
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "nv-ingest.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{- if .Values.zipkin.serviceAccount.name }}
+            {{ .Values.zipkin.serviceAccount.name }}
+          {{- else }}
+            {{ printf "%s-%s" (include "nv-ingest.fullname" .) "zipkin" }}
+          {{- end }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: 'system:openshift:scc:anyuid'

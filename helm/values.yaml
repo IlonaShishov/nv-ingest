@@ -60,7 +60,10 @@ containerSecurityContext: {}
 ## @skip tolerations[0].key
 ## @skip tolerations[0].operator
 ## @skip tolerations[0].effect
-tolerations: []
+tolerations:
+  - key: "odh-notebook"
+    operator: "Exists"
+    effect: "NoSchedule"
 
 # TODO: jdyer - uncomment this when microservice is added, currently no /health endpoint exists to check ...
 
@@ -108,6 +111,10 @@ yolox-nim:
   env:
     - name: NIM_HTTP_API_PORT
       value: "8000"
+  tolerations:
+    - key: "odh-notebook"
+      operator: "Exists"
+      effect: "NoSchedule"
 
 
 ## @skip cachedDeployed
@@ -128,6 +135,10 @@ cached-nim:
   env:
     - name: NIM_HTTP_API_PORT
       value: "8000"
+  tolerations:
+    - key: "odh-notebook"
+      operator: "Exists"
+      effect: "NoSchedule"
 
 ## @skip paddleocrDeployed
 ## @skip paddleocr-nim
@@ -147,6 +158,10 @@ paddleocr-nim:
   env:
     - name: NIM_HTTP_API_PORT
       value: "8000"
+  tolerations:
+    - key: "odh-notebook"
+      operator: "Exists"
+      effect: "NoSchedule"
 
 ## @skip deplotDeployed
 ## @skip deplot-nim
@@ -166,6 +181,10 @@ deplot-nim:
   env:
     - name: NIM_HTTP_API_PORT
       value: "8000"
+  tolerations:
+    - key: "odh-notebook"
+      operator: "Exists"
+      effect: "NoSchedule"
 
 # Use this to load an image Pre NIM Factory via triton
 ## @skip triton
