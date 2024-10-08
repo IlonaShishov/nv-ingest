@@ -14,10 +14,14 @@ Deploy Nvidia NVIngest Blueprint on Openshift
 ### Software
 
 - Linux operating systems (Ubuntu 20.04 or later recommended)
-- [Helm](https://helm.sh/docs/intro/install/)
 - [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) (NVIDIA Driver >= 535)
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+- [Helm](https://helm.sh/docs/intro/install/)
 - [Openshift CLI](https://docs.openshift.com/container-platform/4.8/cli_reference/openshift_cli/getting-started-cli.html)
+
+### Platform 
+
+- You must be logged into an OpenShift Container Platform cluster.
 
 ## Setup Environment
 

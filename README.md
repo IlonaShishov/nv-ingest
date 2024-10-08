@@ -50,20 +50,20 @@ A service that:
 ### Software
 
 - Linux operating systems (Ubuntu 22.04 or later recommended)
-- [Helm](https://helm.sh/docs/intro/install/)
 - [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) (NVIDIA Driver >= `535`, CUDA >= `12.2`)
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+- [Helm](https://helm.sh/docs/intro/install/)
 
 ## Quickstart
 
 To get started using NVIDIA Ingest on Openshift, you need to do a few things:
-1. [Start supporting NIM microservices](#step-1-starting-containers) 🏗️
+1. [Deploy NIM microservices](#step-1-starting-containers) 🏗️
 2. [Submit ingestion job(s)](#step-2-ingesting-documents) 📓
 3. [Inspect and consume results](#step-3-inspecting-and-consuming-results) 🔍
 
 ### Step 1: Starting containers
 
-This example demonstrates how to use the provided [Helm chart](helm/README.md) to start all needed services on Openshift with a few simple commands.
+This example demonstrates how to use the provided [Helm chart](helm/README.md) to start all needed services on an `Openshift` cluster with a few simple commands.
 
 > [!IMPORTANT]
 > NIM containers on their first startup can take 10-15 minutes to pull and fully load models.
