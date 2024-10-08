@@ -1,0 +1,3 @@
+repositories:
+  - name: ngc
+    url: https://helm.ngc.nvidia.com/ohlfw0olaadg/ea-participants/charts
