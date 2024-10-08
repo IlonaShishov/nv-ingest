@@ -1,5 +1,7 @@
 # NVIDIA NVIngest
 
+Deploy Nvidia NVIngest Blueprint on Openshift
+
 ## Prerequisites
 
 ### Hardware
@@ -12,17 +14,18 @@
 ### Software
 
 - Linux operating systems (Ubuntu 20.04 or later recommended)
-- [Docker](https://docs.docker.com/engine/install/)
+- [Helm](https://helm.sh/docs/intro/install/)
 - [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) (NVIDIA Driver >= 535)
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+- [Openshift CLI](https://docs.openshift.com/container-platform/4.8/cli_reference/openshift_cli/getting-started-cli.html)
 
 ## Setup Environment
 
-- First create your namespace
+- Create your namespace
 
 ```bash
 NAMESPACE=nv-ingest
-kubectl create namespace ${NAMESPACE}
+oc new-project $NAMESPACE
 ```
 
 - Install the chart
@@ -40,52 +43,8 @@ helm upgrade \
     --set ngcSecret.password="${NGC_API_KEY}" \
     --set image.repository="nvcr.io/ohlfw0olaadg/ea-participants/nv-ingest" \
     --set image.tag="24.08" \
-    https://helm.ngc.nvidia.com/ohlfw0olaadg/ea-participants/charts/nv-ingest-0.3.5.tgz
+    ./helm
 
-```
-
-Optionally you can create your own versions of the `Secrets` if you do not want to use the creation via the helm chart.
-
-
-```bash
-
-NAMESPACE=nv-ingest
-DOCKER_CONFIG='{"auths":{"nvcr.io":{"username":"$oauthtoken", "password":"'${NGC_API_KEY}'" }}}'
-echo -n $DOCKER_CONFIG | base64 -w0
-NGC_REGISTRY_PASSWORD=$(echo -n $DOCKER_CONFIG | base64 -w0 )
-
-kubectl apply -n ${NAMESPACE} -f - <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  name: nvcrimagepullsecret
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: ${NGC_REGISTRY_PASSWORD}
-EOF
-kubectl create -n ${NAMESPACE} secret generic ngc-api --from-literal=NGC_API_KEY=${NGC_API_KEY}
-
-```
-
-Alternatively, you can also use an External Secret Store like Vault, the name of the secret name expected for the NGC API is `ngc-api` and the secret name expected for NVCR is `nvcrimagepullsecret`.
-
-In this case, make sure to remove the following from your helm commmand:
-
-```bash
-    --set imagePullSecret.create=true \
-    --set imagePullSecret.password="${NGC_API_KEY}" \
-    --set ngcSecret.create=true \
-    --set ngcSecret.password="${NGC_API_KEY}" \
-```
-
-### Minikube Setup
-
-The PVC setup for minikube requires a little bit more configuraiton. Please follow the steps below if you are using minikube.
-
-```bash
-minikube start --driver docker --container-runtime docker --gpus all --nodes 3
-minikube addons enable nvidia-gpu-device-plugin
-minikube addons enable storage-provisioner-rancher
 ```
 
 ## Usage
